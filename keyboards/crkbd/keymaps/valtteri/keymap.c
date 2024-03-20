@@ -123,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,--------------------------------------------------------------------------------------.                    ,--------------------------------------------------------------------------------.
        KC_TAB,       XXXXXXX,       XXXXXXX,    XXXXXXX,     S(LGUI(KC_4)),   S(LGUI(KC_5)),                      XXXXXXX,       XXXXXXX,   LOPT(KC_UP),       XXXXXXX, XXXXXXX,          KC_BSPC,
   //|--------+--------------+--------------+-----------+------------------+----------------|                    |--------+--------------+--------------+--------------+--------+-----------------|
-      KC_LCTL, S(LOPT(KC_C)), S(LOPT(KC_P)), KC_KB_MUTE, KC_KB_VOLUME_DOWN, KC_KB_VOLUME_UP,                      XXXXXXX, LOPT(KC_LEFT), LOPT(LC_DOWN), LOPT(KC_RGHT), XXXXXXX, LCTL(LGUI(KC_Q)),
+      KC_LCTL, S(LOPT(KC_C)), S(LOPT(KC_P)), KC_KB_MUTE, KC_KB_VOLUME_DOWN, KC_KB_VOLUME_UP,                      XXXXXXX, LOPT(KC_LEFT), LOPT(KC_DOWN), LOPT(KC_RGHT), XXXXXXX, LCTL(LGUI(KC_Q)),
   //|--------+--------------+--------------+-----------+------------------+----------------|                    |--------+--------------+--------------+--------------+--------+-----------------|
       KC_LSFT,       XXXXXXX,       XXXXXXX,    KC_MPRV,           KC_MPLY,         KC_MNXT,                      XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX, XXXXXXX,           KC_ESC,
   //|--------+--------------+--------------+-----------+------------------+----------------+--------|  |--------+--------+--------------+--------------+--------------+--------+-----------------|
