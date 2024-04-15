@@ -29,6 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
+// #define GP12 12U
+
+#define SERIAL_USART_TX_PIN 12U
+
+#define OLED_TIMEOUT 300000
+
 //#define QUICK_TAP_TERM 0
 //#define TAPPING_TERM 100
 
