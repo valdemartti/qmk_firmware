@@ -54,3 +54,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define RGBLIGHT_SAT_STEP 17
     #define RGBLIGHT_VAL_STEP 17
 #endif
+
+#undef WS2812_DI_PIN
+#define WS2812_DI_PIN 25
+#undef RGBLIGHT_LED_COUNT
+#define RGBLIGHT_LED_COUNT 2
+#undef RGBLED_SPLIT
+#define RGBLED_SPLIT {1, 1}

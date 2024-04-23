@@ -33,6 +33,14 @@ __attribute__((weak)) const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRI
     {{0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}}
 };
 #endif
+void keyboard_post_init_user(void) {
+    // Initialize RGB to static black
+    rgblight_enable_noeeprom();
+    rgblight_sethsv_noeeprom(HSV_BLACK);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_setrgb_at(RGB_GREEN, 0);
+    rgblight_setrgb_at(RGB_RED, 1);
+}
 
 #ifdef OLED_ENABLE
 
