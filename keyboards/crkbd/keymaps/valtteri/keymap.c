@@ -231,6 +231,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING("gcloud auth login");
         }
         break;
+    case MT(MOD_LGUI, ALGR(KC_8)):
+        if (record->tap.count && record->event.pressed) {
+            tap_code16(ALGR(KC_8));
+            return false;
+        }
+        break;
+    case MT(MOD_LSFT, S(KC_8)):
+        if (record->tap.count && record->event.pressed) {
+            tap_code16(S(KC_8));
+            return false;
+        }
+        break;
     }
     return true;
 };
