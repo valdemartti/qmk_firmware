@@ -176,13 +176,35 @@ enum {
 
     GitComm = S(LOPT(KC_C)),
     GitPush = S(LOPT(KC_P)),
+    GitChec = S(LOPT(KC_V)),
+    GitPull = S(LOPT(KC_L)),
 
     OUp = LALT(KC_UP),
     OLeft = LALT(KC_LEFT),
     ODown = LALT(KC_DOWN),
     ORight = LALT(KC_RGHT),
 
-    LockSc = LCTL(LGUI(KC_Q))
+    LockSc = LCTL(LGUI(KC_Q)),
+
+    GCAuthA = SAFE_RANGE,
+    GCAuthL
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case GCAuthA:
+        if (record->event.pressed) {
+            // The Slash key produces a dash in the US layout
+            SEND_STRING("gcloud auth application/default login");
+        }
+        break;
+    case GCAuthL:
+        if (record->event.pressed) {
+            SEND_STRING("gcloud auth login");
+        }
+        break;
+    }
+    return true;
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -204,7 +226,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // LAYER 1
     [1] = LAYOUT_split_3x6_3(
   //,---------------------------------------------------------.                        ,-------------------------------------------------------------.
-          Tab,     FN1,     FN2,        FN3,      FN4,     FN5,                           Dollar,        At,      And,     Excl,    QMark,      Bkspc,
+          Tab,     FN1,     FN2,        FN3,      FN4,     FN5,                          XXXXXXX,        At,      And,     Excl,    QMark,      Bkspc,
   //|--------+--------+--------+-----------+---------+--------|                        |--------+----------+---------+---------+---------+-----------|
        LShift,     FN6,     FN7,        FN8,      FN9,    FN10,                               N1,        N2,       N3,       N4,       N5,       Euro,
   //|--------+--------+--------+-----------+---------+--------|                        |--------+----------+---------+---------+---------+-----------|
@@ -217,7 +239,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // LAYER 2
     [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------------.                         ,-------------------------------------------------------------.
-          Tab,    Hash,      SQuot,      DQuot,   CQuot,   Slash,                             NLock,  LDesktp,      Up,        RDesktp, XXXXXXX,   Bkspc,
+          Tab,    Hash,     Dollar,      CQuot,   DQuot,   Slash,                             NLock,  LDesktp,      Up,        RDesktp, XXXXXXX,   Bkspc,
   //|--------+--------+-----------+-----------+--------+--------|                         |--------+---------+--------+---------------+--------+--------|
        LShift,   Tilde,       Less,     LArray, LBrackt,  LBrace,                             CLock,     Left,    Down,          Right, XXXXXXX,      AO,
   //|--------+--------+-----------+-----------+--------+--------|                         |--------+---------+--------+---------------+--------+--------|
@@ -230,11 +252,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // LAYER 3
     [3] = LAYOUT_split_3x6_3(
   //,---------------------------------------------------------------.                         ,-------------------------------------------------------.
-          Tab,         SShot,     SCap,  XXXXXXX,  XXXXXXX,   BSlash,                            Layer4,   XXXXXXX,      OUp, XXXXXXX, XXXXXXX,  Bkspc,
+          Tab,         SShot,     SCap,  XXXXXXX,    SQuot,   BSlash,                            Layer4,   XXXXXXX,      OUp, XXXXXXX, GCAuthA,  Bkspc,
   //|--------+--------------+---------+---------+---------+---------|                         |--------+----------+---------+--------+--------+-------|
-       LShift,         VolUp,     More,   RArray,  RBrackt,   RBrace,                           XXXXXXX,     OLeft,    ODown,  ORight, XXXXXXX, LockSc,
+       LShift,         VolUp,     More,   RArray,  RBrackt,   RBrace,                           XXXXXXX,     OLeft,    ODown,  ORight, GCAuthL, LockSc,
   //|--------+--------------+---------+---------+---------+---------|                         |--------+----------+---------+--------+--------+-------|
-        LCtrl,       VolDown,  VolMute, MedBack,  MedPaus,  MedForw,                           XXXXXXX,   GitComm,  GitPush, XXXXXXX, XXXXXXX,    Esc,
+        LCtrl,       VolDown,  VolMute, MedBack,  MedPaus,  MedForw,                            XXXXXXX,   GitComm,  GitPush, GitChec, GitPull,    Esc,
   //|--------+--------------+---------+---------+---------+---------+-----------|  |----------+--------+----------+---------+--------+--------+-------|
                                                       LCmd,  _______,    RectTab,    RectEnter, _______,      RAlt
                                                       //`-----------------------'  `------------------------------'
@@ -263,7 +285,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
         LCtrl,       Z,       X,       C,       V,       B,                                N,       M,   Comma,     Dot,    Dash,     Esc,
   //|--------+--------+--------+--------+--------+--------+----------|  |----------+--------+--------+--------+--------+--------+--------|
-                                               N1,      N2,     Space,        Enter,  Layer4,  Layer5
+                                               N2,      N1,     Space,        Enter,  Layer4,  Layer5
                                       //`----------------------------'  `----------------------------'
   )
 };
