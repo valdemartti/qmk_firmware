@@ -187,7 +187,35 @@ enum {
     LockSc = LCTL(LGUI(KC_Q)),
 
     GCAuthA = SAFE_RANGE,
-    GCAuthL
+    GCAuthL,
+
+    HomeA = MT(MOD_LCTL, KC_A),
+    HomeFN6 = MT(MOD_LCTL, KC_F6),
+    HomeTilde = MT(MOD_LCTL, KC_RBRC),
+
+    HomeS = MT(MOD_LALT, KC_S),
+    HomeFN7 = MT(MOD_LALT, KC_F7),
+    HomeLess = MT(MOD_LALT, KC_GRV),
+
+    HomeD = MT(MOD_LGUI, KC_D),
+    HomeFN8 = MT(MOD_LGUI, KC_F8),
+    HomeLArray = MT(MOD_LGUI, ALGR(KC_8)),
+
+    HomeF = MT(MOD_LSFT, KC_F),
+    HomeFN9 = MT(MOD_LSFT, KC_F9),
+    HomeLBrackt = MT(MOD_LSFT, S(KC_8)),
+
+    HomeJ = MT(MOD_RSFT, KC_J),
+    HomeN2 = MT(MOD_RSFT, KC_2),
+
+    HomeK = MT(MOD_RGUI, KC_K),
+    HomeN3 = MT(MOD_RGUI, KC_3),
+
+    HomeL = MT(MOD_LALT, KC_L),
+    HomeN4 = MT(MOD_LALT, KC_4),
+
+    HomeOE = MT(MOD_RCTL, KC_SCLN),
+    HomeN5 = MT(MOD_RCTL, KC_5),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -214,7 +242,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                        ,-----------------------------------------------------.
           Tab,       Q,       W,       E,       R,       T,                                Y,       U,       I,       O,       P,   Bkspc,
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
-       LShift,       A,       S,       D,       F,       G,                                H,       J,       K,       L,      OE,      AE,
+       LShift,   HomeA,   HomeS,   HomeD,   HomeF,       G,                                H,   HomeJ,   HomeK,   HomeL,  HomeOE,      AE,
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
         LCtrl,       Z,       X,       C,       V,       B,                                N,       M,   Comma,     Dot,    Dash,     Esc,
   //|--------+--------+--------+--------+--------+--------+----------|  |----------+--------+--------+--------+--------+--------+--------|
@@ -228,7 +256,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------------.                        ,-------------------------------------------------------------.
           Tab,     FN1,     FN2,        FN3,      FN4,     FN5,                          XXXXXXX,        At,      And,     Excl,    QMark,      Bkspc,
   //|--------+--------+--------+-----------+---------+--------|                        |--------+----------+---------+---------+---------+-----------|
-       LShift,     FN6,     FN7,        FN8,      FN9,    FN10,                               N1,        N2,       N3,       N4,       N5,       Euro,
+       LShift, HomeFN6, HomeFN7,    HomeFN8,  HomeFN9,    FN10,                               N1,    HomeN2,   HomeN3,   HomeN4,   HomeN5,       Euro,
   //|--------+--------+--------+-----------+---------+--------|                        |--------+----------+---------+---------+---------+-----------|
         LCtrl,    FN11,    FN12,    XXXXXXX,  XXXXXXX, XXXXXXX,                               N6,        N7,       N8,       N9,       N0,        Esc,
   //|--------+--------+--------+-----------+---------+--------+----------|  |----------+--------+----------+---------+---------+---------+-----------|
@@ -238,15 +266,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   // LAYER 2
     [2] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------------.                         ,-------------------------------------------------------------.
-          Tab,    Hash,     Dollar,      CQuot,   DQuot,   Slash,                             NLock,  LDesktp,      Up,        RDesktp, XXXXXXX,   Bkspc,
-  //|--------+--------+-----------+-----------+--------+--------|                         |--------+---------+--------+---------------+--------+--------|
-       LShift,   Tilde,       Less,     LArray, LBrackt,  LBrace,                             CLock,     Left,    Down,          Right, XXXXXXX,      AO,
-  //|--------+--------+-----------+-----------+--------+--------|                         |--------+---------+--------+---------------+--------+--------|
-        LCtrl, Percent,       Wall,       Star,   Equal,    Plus,                           XXXXXXX,  XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX,     Esc,
-  //|--------+--------+-----------+-----------+--------+--------+----------|  |-----------+--------+---------+--------+---------------+--------+--------|
-                                                   LCmd,  Layer3,   RectTab,     RectEnter, _______,     RAlt
-                                            //`----------------------------'  `------------------------------'
+  //,-----------------------------------------------------------------.                         ,-------------------------------------------------------------.
+          Tab,      Hash,     Dollar,      CQuot,       DQuot,   Slash,                             NLock,  LDesktp,      Up,        RDesktp, XXXXXXX,   Bkspc,
+  //|--------+----------+-----------+-----------+------------+--------|                         |--------+---------+--------+---------------+--------+--------|
+       LShift, HomeTilde,   HomeLess, HomeLArray, HomeLBrackt,  LBrace,                             CLock,     Left,    Down,          Right, XXXXXXX,      AO,
+  //|--------+----------+-----------+-----------+------------+--------|                         |--------+---------+--------+---------------+--------+--------|
+        LCtrl,   Percent,       Wall,       Star,       Equal,    Plus,                           XXXXXXX,  XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX,     Esc,
+  //|--------+----------+-----------+-----------+------------+--------+----------|  |-----------+--------+---------+--------+---------------+--------+--------|
+                                                         LCmd,  Layer3,   RectTab,     RectEnter, _______,     RAlt
+                                                  //`----------------------------'  `------------------------------'
     ),
 
   // LAYER 3
