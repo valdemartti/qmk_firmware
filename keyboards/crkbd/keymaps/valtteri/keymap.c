@@ -88,6 +88,7 @@ enum {
     Layer3 = LT(3, KC_BSPC),
     Layer4 = TG(4),
     Layer5 = TG(5),
+    Layer6 = LT(6, S(LOPT(KC_Q))),
 
     Space = KC_SPC,
     Enter = KC_ENT,
@@ -164,6 +165,9 @@ enum {
     MLeft = KC_MS_LEFT,
     MRight = KC_MS_RIGHT,
 
+    ScrUp = KC_PGUP,
+    ScrDown = KC_PGDN,
+
     VolUp = KC_AUDIO_VOL_UP,
     VolDown = KC_AUDIO_VOL_DOWN,
     VolMute = KC_AUDIO_MUTE,
@@ -179,6 +183,8 @@ enum {
     GitChec = S(LOPT(KC_V)),
     GitPull = S(LOPT(KC_L)),
 
+    VSSugg = S(LOPT(KC_Q)),
+
     OUp = LALT(KC_UP),
     OLeft = LALT(KC_LEFT),
     ODown = LALT(KC_DOWN),
@@ -188,26 +194,32 @@ enum {
 
     GCAuthA = SAFE_RANGE,
     GCAuthL,
+    HomeLessTap, // MT(MOD_LALT, KC_GRV)
+    HomeMoreTap, // MT(MOD_LALT, S(KC_GRV))
 
     HomeA = MT(MOD_LCTL, KC_A),
     HomeFN6 = MT(MOD_LCTL, KC_F6),
     HomeTilde = MT(MOD_LCTL, KC_RBRC),
     HomeUndo = MT(MOD_LCTL, LGUI(KC_Z)),
+    HomeVolUp = MT(MOD_LCTL, KC_AUDIO_VOL_UP),
 
     HomeS = MT(MOD_LALT, KC_S),
     HomeFN7 = MT(MOD_LALT, KC_F7),
-    HomeLess = MT(MOD_LALT, KC_GRV),
     HomeCut = MT(MOD_LALT, LGUI(KC_X)),
+    HomeLess = MT(MOD_LALT, HomeLessTap),
+    HomeMore = MT(MOD_LALT, HomeMoreTap),
 
     HomeD = MT(MOD_LSFT, KC_D),
     HomeFN8 = MT(MOD_LSFT, KC_F8),
     HomeLArray = MT(MOD_LSFT, ALGR(KC_8)),
     HomeCopy = MT(MOD_LSFT, LGUI(KC_C)),
+    HomeRArray = MT(MOD_LSFT, ALGR(KC_9)),
 
     HomeF = MT(MOD_LGUI, KC_F),
     HomeFN9 = MT(MOD_LGUI, KC_F9),
     HomeLBrackt = MT(MOD_LGUI, S(KC_8)),
     HomePaste = MT(MOD_LGUI, LGUI(KC_V)),
+    HomeRBrackt = MT(MOD_LGUI, S(KC_9)),
 
     HomeJ = MT(MOD_RGUI, KC_J),
     HomeN2 = MT(MOD_RGUI, KC_2),
@@ -235,13 +247,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING("gcloud auth login");
         }
         break;
-    case MT(MOD_LGUI, ALGR(KC_8)):
+    case HomeLess:
+        // if tapped send KC_GRV, otherwise hold LALT
+        if (record->tap.count && record->event.pressed) {
+            tap_code16(KC_GRV);
+            return false;
+        }
+        break;
+    case HomeMore:
+        // if tapped send S(KC_GRV), otherwise hold LALT
+        if (record->tap.count && record->event.pressed) {
+            tap_code16(S(KC_GRV));
+            return false;
+        }
+        break;
+    case MT(MOD_LSFT, ALGR(KC_8)):
         if (record->tap.count && record->event.pressed) {
             tap_code16(ALGR(KC_8));
             return false;
         }
         break;
-    case MT(MOD_LSFT, S(KC_8)):
+    case MT(MOD_LGUI, S(KC_8)):
         if (record->tap.count && record->event.pressed) {
             tap_code16(S(KC_8));
             return false;
@@ -271,6 +297,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
         break;
+    case MT(MOD_LSFT, ALGR(KC_9)):
+        if (record->tap.count && record->event.pressed) {
+            tap_code16(ALGR(KC_9));
+            return false;
+        }
+        break;
+    case MT(MOD_LGUI, S(KC_9)):
+        if (record->tap.count && record->event.pressed) {
+            tap_code16(S(KC_9));
+            return false;
+        }
+        break;
     }
     return true;
 };
@@ -280,13 +318,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // LAYER 0
     [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                        ,-----------------------------------------------------.
-      XXXXXXX,       Q,       W,       E,       R,       T,                                Y,       U,       I,       O,       P, XXXXXXX,
+      XXXXXXX,       Q,       W,       E,       R,       T,                                Y,       U,       I,       O,       P,     Esc,
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,   HomeA,   HomeS,   HomeD,   HomeF,       G,                                H,   HomeJ,   HomeK,   HomeL,  HomeOE,      AE,
+          Tab,   HomeA,   HomeS,   HomeD,   HomeF,       G,                                H,   HomeJ,   HomeK,   HomeL,  HomeOE,      AE,
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,       Z,       X,       C,       V,       B,                                N,       M,   Comma,     Dot,    Dash,     Esc,
+       Layer2,       Z,       X,       C,       V,       B,                                N,       M,   Comma,     Dot,    Dash,  Layer1,
   //|--------+--------+--------+--------+--------+--------+----------|  |----------+--------+--------+--------+--------+--------+--------|
-                                             LCmd,  Layer1, RectSpace,    RectEnter,  Layer2,    RAlt
+                                           Layer6,  Layer1, RectSpace,    RectEnter,  Layer2,  Layer6
                                       //`----------------------------'  `----------------------------'
 
   ),
@@ -294,40 +332,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // LAYER 1
     [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------------.                        ,-------------------------------------------------------------.
-      XXXXXXX,      FN1,     FN2,        FN3,       FN4,     FN5,                          XXXXXXX,        At,      And,     Excl,    QMark,    XXXXXXX,
+          FN1,      FN2,     FN3,        FN4,       FN5,     FN6,                          XXXXXXX,        At,      And,     Excl,    QMark,        Esc,
   //|--------+---------+--------+-----------+----------+--------|                        |--------+----------+---------+---------+---------+-----------|
-      XXXXXXX, HomeUndo, HomeCut,   HomeCopy, HomePaste,    FN12,                               N1,    HomeN2,   HomeN3,   HomeN4,   HomeN5,       Euro,
+          Tab, HomeUndo, HomeCut,   HomeCopy, HomePaste,    FN12,                               N1,    HomeN2,   HomeN3,   HomeN4,   HomeN5,       Euro,
   //|--------+---------+--------+-----------+----------+--------|                        |--------+----------+---------+---------+---------+-----------|
-          FN6,      FN7,     FN8,        FN9,      FN10,    FN11,                               N6,        N7,       N8,       N9,       N0,        Esc,
+       Layer3,      FN7,     FN8,        FN9,      FN10,    FN11,                               N6,        N7,       N8,       N9,       N0,    _______,
   //|--------+---------+--------+-----------+----------+--------+----------|  |----------+--------+----------+---------+---------+---------+-----------|
-                                                   LCmd, _______, RectSpace,    RectEnter,  Layer3,      RAlt
+                                                 VSSugg, _______, RectSpace,    RectEnter,  Layer3,      RAlt
                                           //`------------------------------'  `------------------------------'
   ),
 
   // LAYER 2
     [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------------------.                         ,-------------------------------------------------------------.
-      XXXXXXX,      Hash,     Dollar,      CQuot,       DQuot,   Slash,                             NLock,  LDesktp,      Up,        RDesktp, XXXXXXX, XXXXXXX,
+      XXXXXXX,      Hash,     Dollar,      CQuot,       DQuot,   Slash,                             NLock,  LDesktp,      Up,        RDesktp, XXXXXXX,     Esc,
   //|--------+----------+-----------+-----------+------------+--------|                         |--------+---------+--------+---------------+--------+--------|
-      XXXXXXX, HomeTilde,   HomeLess, HomeLArray, HomeLBrackt,  LBrace,                             CLock,     Left,    Down,          Right, XXXXXXX,      AO,
+          Tab, HomeTilde,   HomeLess, HomeLArray, HomeLBrackt,  LBrace,                             CLock,     Left,    Down,          Right, XXXXXXX,      AO,
   //|--------+----------+-----------+-----------+------------+--------|                         |--------+---------+--------+---------------+--------+--------|
-      XXXXXXX,   Percent,       Wall,       Star,        Plus,   Equal,                           XXXXXXX,  XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX,     Esc,
+      _______,   Percent,       Wall,       Star,        Plus,   Equal,                           XXXXXXX,  XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX,  Layer3,
   //|--------+----------+-----------+-----------+------------+--------+----------|  |-----------+--------+---------+--------+---------------+--------+--------|
-                                                         LCmd,  Layer3,   RectTab,     RectEnter, _______,     RAlt
+                                                       VSSugg,  Layer3,   RectTab,     RectEnter, _______,     RAlt
                                                   //`----------------------------'  `------------------------------'
     ),
 
   // LAYER 3
     [3] = LAYOUT_split_3x6_3(
-  //,---------------------------------------------------------------.                         ,--------------------------------------------------------.
-      XXXXXXX,         SShot,     SCap,  XXXXXXX,    SQuot,   BSlash,                            Layer4,   XXXXXXX,      OUp, XXXXXXX, GCAuthA, XXXXXXX,
-  //|--------+--------------+---------+---------+---------+---------|                         |--------+----------+---------+--------+--------+--------|
-      XXXXXXX,         VolUp,     More,   RArray,  RBrackt,   RBrace,                           XXXXXXX,     OLeft,    ODown,  ORight, GCAuthL,  LockSc,
-  //|--------+--------------+---------+---------+---------+---------|                         |--------+----------+---------+--------+--------+--------|
-      XXXXXXX,       VolDown,  VolMute, MedBack,  MedPaus,  MedForw,                            XXXXXXX,   GitComm,  GitPush, GitChec, GitPull,     Esc,
-  //|--------+--------------+---------+---------+---------+---------+-----------|  |----------+--------+----------+---------+--------+--------+--------|
-                                                      LCmd,  _______,    RectTab,    RectEnter, _______,      RAlt
-                                                      //`-----------------------'  `------------------------------'
+  //,--------------------------------------------------------------------.                         ,--------------------------------------------------------.
+       Layer4,         SShot,     SCap,    XXXXXXX,       SQuot,   BSlash,                           XXXXXXX,    Mouse1,      MUp,  Mouse2, GCAuthA,     Esc,
+  //|--------+--------------+---------+-----------+------------+---------|                         |--------+----------+---------+--------+--------+--------|
+          Tab,     HomeVolUp, HomeMore, HomeRArray, HomeRBrackt,   RBrace,                             ScrUp,     MLeft,    MDown,  MRight, GCAuthL,  LockSc,
+  //|--------+--------------+---------+-----------+------------+---------|                         |--------+----------+---------+--------+--------+--------|
+      _______,       VolDown,  VolMute,    MedBack,     MedPaus,  MedForw,                           ScrDown,   GitComm,  GitPush, GitChec, GitPull, _______,
+  //|--------+--------------+---------+-----------+------------+---------+-----------|  |----------+--------+----------+---------+--------+--------+--------|
+                                                         VSSugg,  _______,    RectTab,    RectEnter, _______,      RAlt
+                                                //`----------------------------------'  `------------------------------'
   ),
 
   // LAYER 4
