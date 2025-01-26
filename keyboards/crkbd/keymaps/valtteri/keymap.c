@@ -85,7 +85,7 @@ enum {
 
     Layer1 = LT(1, KC_BSPC),
     Layer2 = LT(2, KC_BSPC),
-    Layer3 = LT(3, KC_BSPC),
+    Layer3 = LT(3, KC_DELETE),
     Layer4 = TG(4),
     Layer5 = TG(5),
     Layer6 = LT(6, S(LOPT(KC_Q))),
@@ -165,8 +165,8 @@ enum {
     MLeft = KC_MS_LEFT,
     MRight = KC_MS_RIGHT,
 
-    ScrUp = KC_PGUP,
-    ScrDown = KC_PGDN,
+    ScrUp = KC_MS_WH_UP,
+    ScrDown = KC_MS_WH_DOWN,
 
     VolUp = KC_AUDIO_VOL_UP,
     VolDown = KC_AUDIO_VOL_DOWN,
@@ -183,7 +183,7 @@ enum {
     GitChec = S(LOPT(KC_V)),
     GitPull = S(LOPT(KC_L)),
 
-    VSSugg = S(LOPT(KC_Q)),
+    VSSugg = LOPT(KC_ESC),
 
     OUp = LALT(KC_UP),
     OLeft = LALT(KC_LEFT),
@@ -233,6 +233,18 @@ enum {
     HomeOE = MT(MOD_RCTL, KC_SCLN),
     HomeN5 = MT(MOD_RCTL, KC_5),
 };
+
+void keyboard_post_init_user(void) {  
+    // Initialize RGB to static black  
+    rgblight_enable_noeeprom();  
+    rgblight_sethsv_noeeprom(HSV_BLACK);  
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);  
+}
+
+void housekeeping_task_user(void) {  
+    rgblight_setrgb_at(10, 0, 0, 0);
+    rgblight_setrgb_at(10, 0, 0, 28);
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -318,7 +330,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // LAYER 0
     [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                        ,-----------------------------------------------------.
-      XXXXXXX,       Q,       W,       E,       R,       T,                                Y,       U,       I,       O,       P,     Esc,
+      VSSugg,       Q,       W,       E,       R,       T,                                Y,       U,       I,       O,       P,     Esc,
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
           Tab,   HomeA,   HomeS,   HomeD,   HomeF,       G,                                H,   HomeJ,   HomeK,   HomeL,  HomeOE,      AE,
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
