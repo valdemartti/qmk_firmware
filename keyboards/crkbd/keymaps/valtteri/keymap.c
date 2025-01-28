@@ -183,8 +183,6 @@ enum {
     GitChec = S(LOPT(KC_V)),
     GitPull = S(LOPT(KC_L)),
 
-    VSSugg = LOPT(KC_ESC),
-
     OUp = LALT(KC_UP),
     OLeft = LALT(KC_LEFT),
     ODown = LALT(KC_DOWN),
@@ -196,6 +194,10 @@ enum {
     GCAuthL,
     HomeLessTap, // MT(MOD_LALT, KC_GRV)
     HomeMoreTap, // MT(MOD_LALT, S(KC_GRV))
+
+    VSSugg = LOPT(KC_ESC),
+    VSDef,
+    VSPeek = LOPT(KC_F12),
 
     HomeA = MT(MOD_LCTL, KC_A),
     HomeFN6 = MT(MOD_LCTL, KC_F6),
@@ -273,6 +275,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
         break;
+    case VSDef:
+        if (record->event.pressed) {
+            tap_code16(KC_ESC);
+            tap_code16(KC_F12);
+            return false;
+        }
+        break;
     case MT(MOD_LSFT, ALGR(KC_8)):
         if (record->tap.count && record->event.pressed) {
             tap_code16(ALGR(KC_8));
@@ -336,7 +345,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                        |--------+--------+--------+--------+--------+--------|
        Layer2,       Z,       X,       C,       V,       B,                                N,       M,   Comma,     Dot,    Dash,  Layer1,
   //|--------+--------+--------+--------+--------+--------+----------|  |----------+--------+--------+--------+--------+--------+--------|
-                                           Layer6,  Layer1, RectSpace,    RectEnter,  Layer2,  Layer6
+                                              Esc,  Layer1, RectSpace,    RectEnter,  Layer2,     Esc
                                       //`----------------------------'  `----------------------------'
 
   ),
@@ -348,7 +357,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+---------+--------+-----------+----------+--------|                        |--------+----------+---------+---------+---------+-----------|
           Tab, HomeUndo, HomeCut,   HomeCopy, HomePaste,    FN12,                               N1,    HomeN2,   HomeN3,   HomeN4,   HomeN5,       Euro,
   //|--------+---------+--------+-----------+----------+--------|                        |--------+----------+---------+---------+---------+-----------|
-       Layer3,      FN7,     FN8,        FN9,      FN10,    FN11,                               N6,        N7,       N8,       N9,       N0,    _______,
+       Layer3,  XXXXXXX, XXXXXXX,    XXXXXXX,    VSPeek,   VSDef,                               N6,        N7,       N8,       N9,       N0,    _______,
   //|--------+---------+--------+-----------+----------+--------+----------|  |----------+--------+----------+---------+---------+---------+-----------|
                                                  VSSugg, _______, RectSpace,    RectEnter,  Layer3,      RAlt
                                           //`------------------------------'  `------------------------------'
@@ -361,7 +370,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+----------+-----------+-----------+------------+--------|                         |--------+---------+--------+---------------+--------+--------|
           Tab, HomeTilde,   HomeLess, HomeLArray, HomeLBrackt,  LBrace,                             CLock,     Left,    Down,          Right, XXXXXXX,      AO,
   //|--------+----------+-----------+-----------+------------+--------|                         |--------+---------+--------+---------------+--------+--------|
-      _______,   Percent,       Wall,       Star,        Plus,   Equal,                           XXXXXXX,  XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX,  Layer3,
+      _______,   Percent,       Wall,       Star,        Plus,   Equal,                               FN7,      FN8,     FN9,           FN10,    FN11,  Layer3,
   //|--------+----------+-----------+-----------+------------+--------+----------|  |-----------+--------+---------+--------+---------------+--------+--------|
                                                        VSSugg,  Layer3,   RectTab,     RectEnter, _______,     RAlt
                                                   //`----------------------------'  `------------------------------'
